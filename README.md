@@ -105,16 +105,6 @@ To generate a release APK:
 
 The APK will be generated in `app/build/outputs/apk/release/`
 
-### Build AAB (Android App Bundle)
-
-For Play Store distribution:
-
-```bash
-./gradlew bundleRelease
-```
-
-The AAB will be generated in `app/build/outputs/bundle/release/`
-
 </samp>
 
 ## <samp>Contributing</samp>
