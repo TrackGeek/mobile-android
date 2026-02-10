@@ -7,7 +7,7 @@
 </h1>
 
 <h4 align="center">
-  <samp>Mobile Android App for the unified media tracking platform. </samp>
+  <samp>Android app for tracking all your media in one unified platform.</samp>
 </h4>
 
 <p align="center">
