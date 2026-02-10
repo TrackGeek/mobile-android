@@ -1,3 +1,3 @@
 # mobile-android
 
-Mobile android app for the unified media tracking platform.
+Mobile Android App for the unified media tracking platform.
