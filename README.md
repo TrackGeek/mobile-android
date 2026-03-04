@@ -11,11 +11,11 @@
 </h4>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Kotlin-000000?style=for-the-badge&logo=kotlin&logoColor=FFFFFF">
-  <img src="https://img.shields.io/badge/Jetpack%20Compose-000000?style=for-the-badge&logo=jetpackcompose&logoColor=FFFFFF">
-  <img src="https://img.shields.io/badge/Android-000000?style=for-the-badge&logo=android&logoColor=FFFFFF">
-  <img src="https://img.shields.io/badge/Material%203-000000?style=for-the-badge&logo=materialdesign&logoColor=FFFFFF">
-  <a href="https://translate.trackgeek.net"><img src="https://img.shields.io/badge/Crowdin-000000?style=for-the-badge&logo=crowdin&logoColor=FFFFFF"></a>
+  <img src="https://img.shields.io/badge/Kotlin-99e3a0?style=for-the-badge&logo=kotlin&logoColor=FFFFFF">
+  <img src="https://img.shields.io/badge/Jetpack%20Compose-99e3a0?style=for-the-badge&logo=jetpackcompose&logoColor=FFFFFF">
+  <img src="https://img.shields.io/badge/Android-99e3a0?style=for-the-badge&logo=android&logoColor=FFFFFF">
+  <img src="https://img.shields.io/badge/Material%203-99e3a0?style=for-the-badge&logo=materialdesign&logoColor=FFFFFF">
+  <a href="https://translate.trackgeek.net"><img src="https://img.shields.io/badge/Crowdin-99e3a0?style=for-the-badge&logo=crowdin&logoColor=FFFFFF"></a>
 </p>
 
 ## <samp>Features</samp>
