@@ -1,3 +1,5 @@
+package net.trackgeek.mobile.android.ui.icons
+
 /*
 ISC License
 

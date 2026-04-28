@@ -1,6 +1,6 @@
 package net.trackgeek.mobile.android.ui.screens
 
-import LucideGamepad2
+import net.trackgeek.mobile.android.ui.icons.LucideGamepad2
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape

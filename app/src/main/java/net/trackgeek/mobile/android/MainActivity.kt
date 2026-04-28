@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import net.trackgeek.mobile.android.ui.components.BottomBar
 import net.trackgeek.mobile.android.ui.screens.HomeScreen
 import net.trackgeek.mobile.android.ui.screens.ListScreen
+import net.trackgeek.mobile.android.ui.screens.ProfileScreen
 import net.trackgeek.mobile.android.ui.screens.SearchScreen
 import net.trackgeek.mobile.android.ui.theme.TrackGeekTheme
 
@@ -70,8 +71,7 @@ class MainActivity : ComponentActivity() {
                             ListScreen()
                         }
                         composable("profile") {
-                            // Placeholder for Profile screen
-                            androidx.compose.material3.Text("Profile Screen - Coming Soon")
+                            ProfileScreen()
                         }
                     }
                 }

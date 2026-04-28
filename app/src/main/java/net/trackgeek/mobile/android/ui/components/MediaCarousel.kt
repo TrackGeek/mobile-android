@@ -1,6 +1,5 @@
 package net.trackgeek.mobile.android.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,14 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
 data class MediaItem(
     val title: String,
-    val imageUrl: String
+    val imageUrl: String,
+    val type: String = ""
 )
 
 @Composable
@@ -44,7 +43,7 @@ fun MediaCarousel(
 
     HorizontalPager(
         state = pagerState,
-        contentPadding = PaddingValues(horizontal = 24.dp),
+        contentPadding = PaddingValues(end = 24.dp),
         pageSpacing = 16.dp,
         modifier = modifier
             .fillMaxWidth()
