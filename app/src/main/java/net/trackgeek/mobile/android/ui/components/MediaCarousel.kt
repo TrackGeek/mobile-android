@@ -28,15 +28,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
+enum class MediaType {
+    Movie, TvShow, Game, Manga, Book, Anime, Unknown
+}
+
 data class MediaItem(
+    val id: String,
     val title: String,
     val imageUrl: String,
-    val type: String = ""
+    val type: MediaType
 )
 
 @Composable
 fun MediaCarousel(
     items: List<MediaItem>,
+    onItemClick: (MediaItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val pagerState = rememberPagerState(pageCount = { items.size })
@@ -99,7 +105,7 @@ fun MediaCarousel(
                     Spacer(modifier = Modifier.height(12.dp))
                     
                     Button(
-                        onClick = {  },
+                        onClick = { onItemClick(item) },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.onPrimary

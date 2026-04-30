@@ -15,9 +15,10 @@ import net.trackgeek.mobile.android.ui.components.CategoryTabs
 import net.trackgeek.mobile.android.ui.components.MediaCarousel
 import net.trackgeek.mobile.android.ui.components.MediaItem
 import net.trackgeek.mobile.android.ui.components.MediaSection
+import net.trackgeek.mobile.android.ui.components.MediaType
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onMediaClick: (MediaItem) -> Unit = {}) {
     var selectedTabIndex by remember { mutableIntStateOf(0) }
     val tabs = listOf("Feed", "Movies", "TV Shows", "Games", "Mangas", "Books", "Animes")
     val scrollState = rememberScrollState()
@@ -38,6 +39,7 @@ fun HomeScreen() {
                 val featuredMedia = getMockMediaForCategory(tabs[selectedTabIndex])
                 MediaCarousel(
                     items = featuredMedia,
+                    onItemClick = onMediaClick,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
 
@@ -47,7 +49,8 @@ fun HomeScreen() {
                         title = section.title,
                         items = section.items,
                         onViewAllClick = { /* TODO */ },
-                        modifier = Modifier.padding(bottom = 16.dp)
+                        onItemClick = onMediaClick,
+                        modifier = Modifier.padding(bottom = 16.dp),
                     )
                 }
             } else {
@@ -92,7 +95,12 @@ private fun getMockSectionsForCategory(category: String): List<HomeSection> {
         HomeSection(
             title = title,
             items = List(12) { i ->
-                MediaItem("$title $type $i", "https://picsum.photos/seed/${category}_${title}_$i/200/300", type)
+                MediaItem(
+                    id = "$title $type $i",
+                    title = "$title $type $i",
+                    imageUrl = "https://picsum.photos/seed/${category}_${title}_$i/200/300",
+                    type = MediaType.Movie
+                )
             }
         )
     }
@@ -110,24 +118,24 @@ private fun getMockMediaForCategory(category: String): List<MediaItem> {
     }
     return when (category) {
         "Movies" -> listOf(
-            MediaItem("Inception", "https://image.tmdb.org/t/p/w500/edv5CZvnc0U9YvO679IqCgl7ndC.jpg", type),
-            MediaItem("The Dark Knight", "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDp9QmSJJIVzTVbvSJp.jpg", type),
-            MediaItem("Interstellar", "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", type)
+            MediaItem(id = "Inception", title = "Inception", imageUrl = "https://image.tmdb.org/t/p/w500/edv5CZvnc0U9YvO679IqCgl7ndC.jpg", type = MediaType.Movie),
+            MediaItem(id = "The Dark Knight", title = "The Dark Knight", imageUrl = "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDp9QmSJJIVzTVbvSJp.jpg", type = MediaType.Movie),
+            MediaItem(id = "Interstellar", title = "Interstellar", imageUrl = "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", type = MediaType.Movie)
         )
         "TV Shows" -> listOf(
-            MediaItem("Breaking Bad", "https://image.tmdb.org/t/p/w500/ggws9uIDss9A5Yq366f07Y2f8vN.jpg", type),
-            MediaItem("The Bear", "https://image.tmdb.org/t/p/w500/96XS9vP86T75X67g5fHlU6V7qL0.jpg", type),
-            MediaItem("Succession", "https://image.tmdb.org/t/p/w500/77S99Xp9BgS9uWj6vXpUvQf4S8.jpg", type)
+            MediaItem(id = "Breaking Bad", title = "Breaking Bad", imageUrl = "https://image.tmdb.org/t/p/w500/ggws9uIDss9A5Yq366f07Y2f8vN.jpg", type = MediaType.TvShow),
+            MediaItem(id = "The Bear", title = "The Bear", imageUrl = "https://image.tmdb.org/t/p/w500/96XS9vP86T75X67g5fHlU6V7qL0.jpg", type = MediaType.TvShow),
+            MediaItem(id = "Succession", title = "Succession", imageUrl = "https://image.tmdb.org/t/p/w500/77S99Xp9BgS9uWj6vXpUvQf4S8.jpg", type = MediaType.TvShow)
         )
         "Games" -> listOf(
-            MediaItem("Elden Ring", "https://media.rawg.io/media/games/511/5118bef50a3b535c18ed39095db1a961.jpg", type),
-            MediaItem("God of War", "https://media.rawg.io/media/games/4be/4be7a6ad3e35147514a6e3823485f47a.jpg", type),
-            MediaItem("The Last of Us", "https://media.rawg.io/media/games/d58/d588947d428671478960d2bc4d406535.jpg", type)
+            MediaItem(id = "Elden Ring", title = "Elden Ring", imageUrl = "https://media.rawg.io/media/games/511/5118bef50a3b535c18ed39095db1a961.jpg", type = MediaType.Game),
+            MediaItem(id = "God of War", title = "God of War", imageUrl = "https://media.rawg.io/media/games/4be/4be7a6ad3e35147514a6e3823485f47a.jpg", type = MediaType.Game),
+            MediaItem(id = "The Last of Us", title = "The Last of Us", imageUrl = "https://media.rawg.io/media/games/d58/d588947d428671478960d2bc4d406535.jpg", type = MediaType.Game)
         )
         else -> listOf(
-            MediaItem("Berserk", "https://picsum.photos/seed/berserk/500/300", type),
-            MediaItem("One Piece", "https://picsum.photos/seed/onepiece/500/300", type),
-            MediaItem("Tonikaku Kawaii", "https://picsum.photos/seed/tonikaku/500/300", type)
+            MediaItem(id = "Berserk", title = "Berserk", imageUrl = "https://picsum.photos/seed/berserk/500/300", type = MediaType.Anime),
+            MediaItem(id = "One Piece", title = "One Piece", imageUrl = "https://picsum.photos/seed/onepiece/500/300", type = MediaType.Anime),
+            MediaItem(id = "Tonikaku Kawaii", title = "Tonikaku Kawaii", imageUrl = "https://picsum.photos/seed/tonikaku/500/300", type = MediaType.Anime)
         )
     }
 }

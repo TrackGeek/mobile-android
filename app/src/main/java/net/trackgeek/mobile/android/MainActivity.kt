@@ -13,8 +13,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import net.trackgeek.mobile.android.ui.components.BottomBar
+import net.trackgeek.mobile.android.ui.components.MediaType
 import net.trackgeek.mobile.android.ui.screens.HomeScreen
 import net.trackgeek.mobile.android.ui.screens.ListScreen
+import net.trackgeek.mobile.android.ui.screens.MovieDetailsScreen
 import net.trackgeek.mobile.android.ui.screens.ProfileScreen
 import net.trackgeek.mobile.android.ui.screens.SearchScreen
 import net.trackgeek.mobile.android.ui.theme.TrackGeekTheme
@@ -62,7 +64,11 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable("home") {
-                            HomeScreen()
+                            HomeScreen(onMediaClick = { media ->
+                                if (media.type == MediaType.Movie) {
+                                    navController.navigate("movie_details/${media.id}")
+                                }
+                            })
                         }
                         composable("search") {
                             SearchScreen()
@@ -72,6 +78,15 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("profile") {
                             ProfileScreen()
+                        }
+                        composable("movie_details/{movieId}") { backStackEntry ->
+                            val movieId = backStackEntry.arguments?.getString("movieId")
+                            if (movieId != null) {
+                                MovieDetailsScreen(
+                                    movieId = movieId,
+                                    onBackClick = { navController.popBackStack() }
+                                )
+                            }
                         }
                     }
                 }

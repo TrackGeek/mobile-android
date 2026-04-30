@@ -23,8 +23,8 @@ import coil.compose.AsyncImage
 @Composable
 fun MediaCard(
     item: MediaItem,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -61,6 +61,7 @@ fun MediaSection(
     title: String,
     items: List<MediaItem>,
     onViewAllClick: () -> Unit,
+    onItemClick: (MediaItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
@@ -91,7 +92,10 @@ fun MediaSection(
             modifier = Modifier.fillMaxWidth()
         ) {
             items(items) { item ->
-                MediaCard(item = item)
+                MediaCard(
+                    item = item,
+                    onClick = { onItemClick(item) }
+                )
             }
         }
     }
