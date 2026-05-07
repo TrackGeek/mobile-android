@@ -58,7 +58,8 @@ data class StatItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    isOwnProfile: Boolean = false
+    isOwnProfile: Boolean = false,
+    onSettingsClick: () -> Unit = {}
 ) {
     var isFollowing by remember { mutableStateOf(false) }
     var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -114,7 +115,7 @@ fun ProfileScreen(
                         Icon(Icons.Outlined.Share, contentDescription = "Share")
                     }
                     if (isOwnProfile) {
-                        IconButton(onClick = {}) {
+                        IconButton(onClick = onSettingsClick) {
                             Icon(Icons.Outlined.Settings, contentDescription = "Settings")
                         }
                     } else {
@@ -138,7 +139,8 @@ fun ProfileScreen(
                 ProfileHeader(
                     isOwnProfile = isOwnProfile,
                     isFollowing = isFollowing,
-                    onFollowClick = { isFollowing = !isFollowing }
+                    onFollowClick = { isFollowing = !isFollowing },
+                    onSettingsClick = onSettingsClick
                 )
             }
 
@@ -184,7 +186,8 @@ fun ProfileScreen(
 private fun ProfileHeader(
     isOwnProfile: Boolean,
     isFollowing: Boolean,
-    onFollowClick: () -> Unit
+    onFollowClick: () -> Unit,
+    onSettingsClick: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
         Box(
@@ -232,7 +235,7 @@ private fun ProfileHeader(
 
                 if (isOwnProfile) {
                     OutlinedButton(
-                        onClick = {},
+                        onClick = onSettingsClick,
                         shape = MaterialTheme.shapes.small,
                         modifier = Modifier.padding(bottom = 4.dp)
                     ) {

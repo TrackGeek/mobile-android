@@ -19,6 +19,7 @@ import net.trackgeek.mobile.android.ui.screens.ListScreen
 import net.trackgeek.mobile.android.ui.screens.MovieDetailsScreen
 import net.trackgeek.mobile.android.ui.screens.ProfileScreen
 import net.trackgeek.mobile.android.ui.screens.SearchScreen
+import net.trackgeek.mobile.android.ui.screens.SettingsScreen
 import net.trackgeek.mobile.android.ui.theme.TrackGeekTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,29 +34,33 @@ class MainActivity : ComponentActivity() {
                 val currentBackStackEntry = navController.currentBackStackEntryAsState()
                 val currentRoute = currentBackStackEntry.value?.destination?.route
 
+                val showBottomBar = currentRoute in listOf("home", "search", "list", "profile")
+
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
-                        BottomBar(
-                            currentRoute = currentRoute,
-                            onNavigateToRoute = { route ->
-                                navController.navigate(route) {
-                                    // Pop up to the start destination of the graph to
-                                    // avoid building up a large stack of destinations
-                                    // on the back stack as users select items
-                                    navController.graph.startDestinationRoute?.let { startRoute ->
-                                        popUpTo(startRoute) {
-                                            saveState = true
+                        if (showBottomBar) {
+                            BottomBar(
+                                currentRoute = currentRoute,
+                                onNavigateToRoute = { route ->
+                                    navController.navigate(route) {
+                                        // Pop up to the start destination of the graph to
+                                        // avoid building up a large stack of destinations
+                                        // on the back stack as users select items
+                                        navController.graph.startDestinationRoute?.let { startRoute ->
+                                            popUpTo(startRoute) {
+                                                saveState = true
+                                            }
                                         }
+                                        // Avoid multiple copies of the same destination when
+                                        // reselecting the same item
+                                        launchSingleTop = true
+                                        // Restore state when reselecting a previously selected item
+                                        restoreState = true
                                     }
-                                    // Avoid multiple copies of the same destination when
-                                    // reselecting the same item
-                                    launchSingleTop = true
-                                    // Restore state when reselecting a previously selected item
-                                    restoreState = true
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 ) { innerPadding ->
                     NavHost(
@@ -77,7 +82,15 @@ class MainActivity : ComponentActivity() {
                             ListScreen()
                         }
                         composable("profile") {
-                            ProfileScreen()
+                            ProfileScreen(
+                                isOwnProfile = true,
+                                onSettingsClick = { navController.navigate("settings") }
+                            )
+                        }
+                        composable("settings") {
+                            SettingsScreen(
+                                onBackClick = { navController.popBackStack() }
+                            )
                         }
                         composable("movie_details/{movieId}") { backStackEntry ->
                             val movieId = backStackEntry.arguments?.getString("movieId")
