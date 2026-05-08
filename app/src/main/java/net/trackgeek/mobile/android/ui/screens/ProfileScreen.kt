@@ -102,7 +102,6 @@ fun ProfileScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {},
                 navigationIcon = {
                     if (!isOwnProfile) {
                         IconButton(onClick = {}) {
@@ -114,19 +113,19 @@ fun ProfileScreen(
                     IconButton(onClick = {}) {
                         Icon(Icons.Outlined.Share, contentDescription = "Share")
                     }
-                    if (isOwnProfile) {
-                        IconButton(onClick = onSettingsClick) {
-                            Icon(Icons.Outlined.Settings, contentDescription = "Settings")
-                        }
-                    } else {
+                    if (!isOwnProfile) {
                         IconButton(onClick = {}) {
                             Icon(Icons.Default.MoreVert, contentDescription = "More")
                         }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
-                )
+                    containerColor = Color.Transparent,
+                    navigationIconContentColor = Color.White,
+                    actionIconContentColor = Color.White
+                ),
+                title = {},
+                windowInsets = WindowInsets(0, 0, 0, 0)
             )
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -234,9 +233,13 @@ private fun ProfileHeader(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 if (isOwnProfile) {
-                    OutlinedButton(
+                    Button(
                         onClick = onSettingsClick,
                         shape = MaterialTheme.shapes.small,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        ),
                         modifier = Modifier.padding(bottom = 4.dp)
                     ) {
                         Text("Edit Profile", style = MaterialTheme.typography.labelMedium)

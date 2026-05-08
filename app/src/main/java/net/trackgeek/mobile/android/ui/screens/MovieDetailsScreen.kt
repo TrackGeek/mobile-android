@@ -47,14 +47,62 @@ fun MovieDetailsScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             topBar = {
-                Spacer(modifier = Modifier.height(0.dp))
+                TopAppBar(
+                    title = {},
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                        navigationIconContentColor = Color.White,
+                        actionIconContentColor = Color.White
+                    ),
+                    navigationIcon = {
+                        FloatingActionButton(
+                            onClick = onBackClick,
+                            containerColor = Color.Black.copy(alpha = 0.5f),
+                            contentColor = Color.White,
+                            elevation = FloatingActionButtonDefaults.elevation(0.dp),
+                            shape = CircleShape,
+                            modifier = Modifier.padding(start = 16.dp)
+                        ) {
+                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        }
+                    },
+                    actions = {
+                        Row(
+                            modifier = Modifier.padding(end = 16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            FloatingActionButton(
+                                onClick = { isFavorite = !isFavorite },
+                                contentColor = if (isFavorite) Color.Red else Color.White,
+                                containerColor = Color.Transparent,
+                                elevation = FloatingActionButtonDefaults.elevation(0.dp),
+                                shape = CircleShape
+                            ) {
+                                Icon(
+                                    if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                    contentDescription = "Favorite"
+                                )
+                            }
+                            FloatingActionButton(
+                                onClick = { /* Share */ },
+                                contentColor = Color.White,
+                                containerColor = Color.Transparent,
+                                elevation = FloatingActionButtonDefaults.elevation(0.dp),
+                                shape = CircleShape
+                            ) {
+                                Icon(Icons.Default.Share, contentDescription = "Share")
+                            }
+                        }
+                    },
+                    windowInsets = WindowInsets(0, 0, 0, 0)
+                )
             },
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { padding ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = padding.calculateTopPadding())
                     .verticalScroll(rememberScrollState())
             ) {
 
@@ -79,47 +127,6 @@ fun MovieDetailsScreen(
                                 )
                             )
                     )
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.Top
-                    ) {
-                        FloatingActionButton(
-                            onClick = onBackClick,
-                            containerColor = Color.Black.copy(alpha = 0.5f),
-                            contentColor = Color.White,
-                            elevation = FloatingActionButtonDefaults.elevation(0.dp),
-                            shape = CircleShape
-                        ) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                        }
-                        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                            FloatingActionButton(
-                                onClick = { isFavorite = !isFavorite },
-                                containerColor = Color.Black.copy(alpha = 0.5f),
-                                contentColor = if (isFavorite) Color.Red else Color.White,
-                                elevation = FloatingActionButtonDefaults.elevation(0.dp),
-                                shape = CircleShape
-                            ) {
-                                Icon(
-                                    if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                                    contentDescription = "Favorite"
-                                )
-                            }
-                            FloatingActionButton(
-                                onClick = { /* Share */ },
-                                containerColor = Color.Black.copy(alpha = 0.5f),
-                                contentColor = Color.White,
-                                elevation = FloatingActionButtonDefaults.elevation(0.dp),
-                                shape = CircleShape
-                            ) {
-                                Icon(Icons.Default.Share, contentDescription = "Share")
-                            }
-                        }
-                    }
 
                     Row(
                         modifier = Modifier

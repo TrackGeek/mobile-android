@@ -1,7 +1,6 @@
 package net.trackgeek.mobile.android.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -14,8 +13,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +22,8 @@ import net.trackgeek.mobile.android.ui.theme.TrackGeekTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onDonateClick: () -> Unit
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
 
@@ -104,7 +102,7 @@ fun SettingsScreen(
 
             // Donation Banner
             item {
-                DonationBanner()
+                DonationBanner(onClick = onDonateClick)
             }
 
             // Account Section
@@ -274,10 +272,11 @@ fun SettingsItem(
 }
 
 @Composable
-fun DonationBanner() {
+fun DonationBanner(onClick: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
+        onClick = onClick,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.tertiaryContainer
         )
@@ -318,7 +317,7 @@ fun DonationBanner() {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
-                    onClick = {},
+                    onClick = onClick,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.tertiary,
                         contentColor = MaterialTheme.colorScheme.onTertiary
@@ -383,6 +382,6 @@ private data class ContentType(
 @Composable
 fun SettingsScreenPreview() {
     TrackGeekTheme {
-        SettingsScreen(onBackClick = {})
+        SettingsScreen(onBackClick = {}, onDonateClick = {})
     }
 }

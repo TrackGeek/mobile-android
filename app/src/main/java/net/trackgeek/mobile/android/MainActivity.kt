@@ -4,22 +4,27 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import net.trackgeek.mobile.android.ui.components.BottomBar
 import net.trackgeek.mobile.android.ui.components.MediaType
+import net.trackgeek.mobile.android.ui.screens.DonateScreen
 import net.trackgeek.mobile.android.ui.screens.HomeScreen
 import net.trackgeek.mobile.android.ui.screens.ListScreen
 import net.trackgeek.mobile.android.ui.screens.MovieDetailsScreen
 import net.trackgeek.mobile.android.ui.screens.ProfileScreen
 import net.trackgeek.mobile.android.ui.screens.SearchScreen
 import net.trackgeek.mobile.android.ui.screens.SettingsScreen
+import net.trackgeek.mobile.android.ui.screens.SplashScreen
 import net.trackgeek.mobile.android.ui.theme.TrackGeekTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,6 +32,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
+
+        val windowInsetsController =
+            WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
 
         setContent {
             TrackGeekTheme {
@@ -44,18 +53,12 @@ class MainActivity : ComponentActivity() {
                                 currentRoute = currentRoute,
                                 onNavigateToRoute = { route ->
                                     navController.navigate(route) {
-                                        // Pop up to the start destination of the graph to
-                                        // avoid building up a large stack of destinations
-                                        // on the back stack as users select items
                                         navController.graph.startDestinationRoute?.let { startRoute ->
                                             popUpTo(startRoute) {
                                                 saveState = true
                                             }
                                         }
-                                        // Avoid multiple copies of the same destination when
-                                        // reselecting the same item
                                         launchSingleTop = true
-                                        // Restore state when reselecting a previously selected item
                                         restoreState = true
                                     }
                                 }
@@ -65,40 +68,70 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = "home",
-                        modifier = Modifier.padding(innerPadding)
+                        startDestination = "splash",
+                        modifier = Modifier.fillMaxSize()
                     ) {
-                        composable("home") {
-                            HomeScreen(onMediaClick = { media ->
-                                if (media.type == MediaType.Movie) {
-                                    navController.navigate("movie_details/${media.id}")
+                        composable("splash") {
+                            SplashScreen(
+                                onAnimationFinished = {
+                                    navController.navigate("home") {
+                                        popUpTo("splash") { inclusive = true }
+                                    }
                                 }
-                            })
+                            )
+                        }
+                        composable("home") {
+                            HomeScreen(
+                                modifier = Modifier.padding(innerPadding),
+                                onMediaClick = { media ->
+                                    if (media.type == MediaType.Movie) {
+                                        navController.navigate("movie_details/${media.id}")
+                                    }
+                                }
+                            )
                         }
                         composable("search") {
-                            SearchScreen()
+                            Box(modifier = Modifier.padding(innerPadding)) {
+                                SearchScreen()
+                            }
                         }
                         composable("list") {
-                            ListScreen()
+                            Box(modifier = Modifier.padding(innerPadding)) {
+                                ListScreen()
+                            }
                         }
                         composable("profile") {
-                            ProfileScreen(
-                                isOwnProfile = true,
-                                onSettingsClick = { navController.navigate("settings") }
-                            )
+                            Box(modifier = Modifier.padding(innerPadding)) {
+                                ProfileScreen(
+                                    isOwnProfile = true,
+                                    onSettingsClick = { navController.navigate("settings") }
+                                )
+                            }
                         }
                         composable("settings") {
-                            SettingsScreen(
-                                onBackClick = { navController.popBackStack() }
-                            )
+                            Box(modifier = Modifier.padding(innerPadding)) {
+                                SettingsScreen(
+                                    onBackClick = { navController.popBackStack() },
+                                    onDonateClick = { navController.navigate("donate") }
+                                )
+                            }
+                        }
+                        composable("donate") {
+                            Box(modifier = Modifier.padding(innerPadding)) {
+                                DonateScreen(
+                                    onBackClick = { navController.popBackStack() }
+                                )
+                            }
                         }
                         composable("movie_details/{movieId}") { backStackEntry ->
                             val movieId = backStackEntry.arguments?.getString("movieId")
                             if (movieId != null) {
-                                MovieDetailsScreen(
-                                    movieId = movieId,
-                                    onBackClick = { navController.popBackStack() }
-                                )
+                                Box(modifier = Modifier.padding(innerPadding)) {
+                                    MovieDetailsScreen(
+                                        movieId = movieId,
+                                        onBackClick = { navController.popBackStack() }
+                                    )
+                                }
                             }
                         }
                     }

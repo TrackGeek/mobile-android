@@ -1,7 +1,10 @@
 package net.trackgeek.mobile.android.ui.theme
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 
 private val darkScheme = darkColorScheme(
     primary = primaryDark,

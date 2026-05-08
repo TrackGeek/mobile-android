@@ -18,12 +18,15 @@ import net.trackgeek.mobile.android.ui.components.MediaSection
 import net.trackgeek.mobile.android.ui.components.MediaType
 
 @Composable
-fun HomeScreen(onMediaClick: (MediaItem) -> Unit = {}) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    onMediaClick: (MediaItem) -> Unit = {}
+) {
     var selectedTabIndex by remember { mutableIntStateOf(0) }
     val tabs = listOf("Feed", "Movies", "TV Shows", "Games", "Mangas", "Books", "Animes")
     val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = modifier.fillMaxSize()) {
         CategoryTabs(
             tabs = tabs,
             selectedTabIndex = selectedTabIndex,
